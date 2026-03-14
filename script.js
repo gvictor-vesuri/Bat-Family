@@ -58,6 +58,29 @@ function normalizeMember(member) {
   return "batman";
 }
 
+const preloadedImages = new Set();
+
+function preloadFirstImage(member) {
+  const safe = normalizeMember(member);
+  const first = (IMAGES[safe] || [])[0];
+  if (!first || !first.src) return;
+  if (preloadedImages.has(first.src)) return;
+  preloadedImages.add(first.src);
+
+  // Hint the browser to fetch early. Works even if it ends up being a no-op.
+  const link = document.createElement("link");
+  link.rel = "preload";
+  link.as = "image";
+  link.href = first.src;
+  document.head.appendChild(link);
+
+  // Fallback: ensure it starts downloading even if preload is ignored.
+  const img = new Image();
+  img.decoding = "async";
+  img.loading = "eager";
+  img.src = first.src;
+}
+
 function renderGalleriesOnce() {
   document.querySelectorAll(".gallery[data-member]").forEach((gallery) => {
     const member = gallery.getAttribute("data-member");
@@ -76,18 +99,28 @@ function renderGalleriesOnce() {
 
 function setActiveTab(member) {
   const safe = normalizeMember(member);
+  preloadFirstImage(safe);
 
   document.querySelectorAll('[role="tab"]').forEach((tab) => {
     const controls = tab.getAttribute("aria-controls");
     const isActive = controls === `panel-${safe}`;
     tab.setAttribute("aria-selected", isActive ? "true" : "false");
-    tab.tabIndex = isActive ? 0 : -1;
+    tab.tabIndex = isActive && !tab.hidden ? 0 : -1;
   });
 
   document.querySelectorAll('[role="tabpanel"]').forEach((panel) => {
     const isActive = panel.id === `panel-${safe}`;
     panel.setAttribute("aria-hidden", isActive ? "false" : "true");
   });
+
+  const menuActive = document.querySelector(".menuActive");
+  if (menuActive) {
+    const activeTab = document.querySelector(
+      `[role="tab"][aria-controls="panel-${safe}"]`
+    );
+    const label = (activeTab?.textContent || "").trim();
+    menuActive.textContent = label ? `· ${label}` : "";
+  }
 }
 
 function scrollToPanel(member) {
@@ -122,11 +155,14 @@ function setupTabKeyboard() {
   if (tabs.length === 0) return;
 
   function activateByIndex(index) {
-    const clamped = ((index % tabs.length) + tabs.length) % tabs.length;
-    const controls = tabs[clamped].getAttribute("aria-controls") || "";
+    const visibleTabs = tabs.filter((t) => !t.hidden);
+    if (visibleTabs.length === 0) return;
+    const clamped =
+      ((index % visibleTabs.length) + visibleTabs.length) % visibleTabs.length;
+    const controls = visibleTabs[clamped].getAttribute("aria-controls") || "";
     const member = controls.replace(/^panel-/, "");
     setActiveTab(member);
-    tabs[clamped].focus();
+    visibleTabs[clamped].focus();
     requestAnimationFrame(() => scrollToPanel(member));
     history.replaceState(null, "", `#${normalizeMember(member)}`);
   }
@@ -143,10 +179,12 @@ function setupTabKeyboard() {
       }
 
       event.preventDefault();
+      const visibleTabs = tabs.filter((t) => !t.hidden);
+      const visibleIndex = visibleTabs.indexOf(tab);
       if (event.key === "Home") activateByIndex(0);
-      else if (event.key === "End") activateByIndex(tabs.length - 1);
-      else if (event.key === "ArrowLeft") activateByIndex(i - 1);
-      else if (event.key === "ArrowRight") activateByIndex(i + 1);
+      else if (event.key === "End") activateByIndex(visibleTabs.length - 1);
+      else if (event.key === "ArrowLeft") activateByIndex(visibleIndex - 1);
+      else if (event.key === "ArrowRight") activateByIndex(visibleIndex + 1);
     });
   });
 }
@@ -196,10 +234,94 @@ function setupMobileNav() {
   window.addEventListener("hashchange", closeNav);
 }
 
+function setupFilter() {
+  const input = document.getElementById("memberFilter");
+  const empty = document.querySelector(".navEmpty");
+  if (!input) return;
+
+  function getActiveMember() {
+    const selected = document.querySelector('[role="tab"][aria-selected="true"]');
+    const controls = selected?.getAttribute("aria-controls") || "";
+    return controls.replace(/^panel-/, "");
+  }
+
+  function applyFilter(query) {
+    const normalized = (query || "").trim().toLowerCase();
+    const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
+    let visibleCount = 0;
+
+    tabs.forEach((tab) => {
+      const text = (tab.textContent || "").trim().toLowerCase();
+      const match = normalized === "" ? true : text.includes(normalized);
+      tab.hidden = !match;
+      if (match) visibleCount += 1;
+    });
+
+    if (empty) empty.hidden = visibleCount !== 0;
+
+    const active = getActiveMember();
+    const activeTab = document.querySelector(
+      `[role="tab"][aria-controls="panel-${active}"]`
+    );
+    if (!activeTab || activeTab.hidden) {
+      const firstVisible = tabs.find((t) => !t.hidden);
+      if (firstVisible) {
+        const controls = firstVisible.getAttribute("aria-controls") || "";
+        const member = controls.replace(/^panel-/, "");
+        setActiveTab(member);
+        history.replaceState(null, "", `#${normalizeMember(member)}`);
+      }
+    } else {
+      // Ensure roving tabindex stays correct after hiding/showing tabs.
+      setActiveTab(active);
+    }
+  }
+
+  input.addEventListener("input", () => applyFilter(input.value));
+  input.addEventListener("search", () => applyFilter(input.value));
+
+  // Initial state.
+  applyFilter(input.value);
+}
+
+function setupBackToTop() {
+  const button = document.querySelector(".toTop");
+  if (!button) return;
+
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
+  }
+
+  button.addEventListener("click", scrollToTop);
+
+  let ticking = false;
+  function update() {
+    ticking = false;
+    button.hidden = window.scrollY < 500;
+  }
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    },
+    { passive: true }
+  );
+
+  update();
+}
+
 renderGalleriesOnce();
 setupTabClicks();
 setupTabKeyboard();
 setupHashNavigation();
 setActiveTab(location.hash);
 setupMobileNav();
-
+setupFilter();
+setupBackToTop();

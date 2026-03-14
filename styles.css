@@ -97,13 +97,64 @@ h1 {
   top: 0;
   z-index: 45;
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
   gap: 10px;
   padding: 12px 12px;
   background: rgba(0, 0, 0, 0.65);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.navHeader {
+  width: min(900px, 100%);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.navSearchLabel {
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: left;
+}
+
+.navSearch {
+  width: 100%;
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(0, 0, 0, 0.35);
+  color: var(--fg);
+  padding: 10px 12px;
+  border-radius: 14px;
+  font: inherit;
+}
+
+.navSearch::placeholder {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.navSearch:focus-visible {
+  outline: 3px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.navEmpty {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.72);
+  text-align: left;
+  font-size: 13px;
+}
+
+.tabList {
+  width: min(900px, 100%);
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .tab {
@@ -227,6 +278,38 @@ h1 {
   border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
+.menuActive {
+  display: none;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.toTop {
+  position: fixed;
+  right: 12px;
+  bottom: 12px;
+  z-index: 48;
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(0, 0, 0, 0.55);
+  color: var(--fg);
+  font-weight: 800;
+  padding: 10px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+}
+
+.toTop:hover {
+  border-color: rgba(34, 240, 200, 0.55);
+}
+
+.toTop:focus-visible {
+  outline: 3px solid var(--ring);
+  outline-offset: 2px;
+}
+
 /* Mobile menu */
 .menuToggle {
   display: none;
@@ -274,22 +357,40 @@ body.navOpen {
     gap: 8px;
   }
 
+  .menuActive {
+    display: inline;
+    font-size: 13px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.76);
+  }
+
   .tabs {
     position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
     width: min(86vw, 340px);
-    padding: 18px 14px;
-    gap: 10px;
-    justify-content: flex-start;
-    align-content: flex-start;
-    flex-direction: column;
+    padding: 0;
+    gap: 0;
+    align-items: stretch;
     border-right: 1px solid rgba(255, 255, 255, 0.1);
     border-bottom: 0;
     background: rgba(0, 0, 0, 0.88);
     transform: translateX(-110%);
     transition: transform 160ms ease;
+  }
+
+  .navHeader {
+    padding: 18px 14px 10px;
+  }
+
+  .tabList {
+    padding: 0 14px 18px;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   body.navOpen .tabs {
@@ -314,4 +415,3 @@ body.navOpen {
     scroll-behavior: auto !important;
   }
 }
-

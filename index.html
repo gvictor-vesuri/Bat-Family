@@ -18,39 +18,62 @@
 
 <body>
   <button class="menuToggle" type="button" aria-controls="site-nav" aria-expanded="false">
-    Menu
+    <span class="menuLabel">Menu</span>
+    <span class="menuActive" aria-hidden="true"></span>
   </button>
   <div class="scrim" hidden></div>
+  <button class="toTop" type="button" hidden aria-label="Voltar ao topo">
+    Topo
+  </button>
 
-  <nav class="tabs" id="site-nav" role="tablist" aria-label="BatFamily">
-    <button class="tab" type="button" role="tab" id="tab-batman" aria-controls="panel-batman" aria-selected="true">
-      Batman
-    </button>
-    <button class="tab" type="button" role="tab" id="tab-robin" aria-controls="panel-robin" aria-selected="false">
-      Robin
-    </button>
-    <button class="tab" type="button" role="tab" id="tab-nightwing" aria-controls="panel-nightwing"
-      aria-selected="false">
-      Nightwing
-    </button>
-    <button class="tab" type="button" role="tab" id="tab-batgirl" aria-controls="panel-batgirl" aria-selected="false">
-      Batgirl
-    </button>
-    <button class="tab" type="button" role="tab" id="tab-batman-beyond" aria-controls="panel-batman-beyond">Batman
-      Beyond
-    </button>
-    <button class="tab" type="button" role="tab" id="tab-batwoman" aria-controls="panel-batwoman">Batwoman
-    </button>
-    <button class="tab" type="button" role="tab" id="tab-batgirl-cass-cain" aria-controls="panel-batgirl-cass-cain">Batgirl
-      (Cassandra Cain)
-    </button>
-    <button class="tab" type="button" role="tab" id="tab-red-hood" aria-controls="panel-red-hood">Red Hood
-    </button>
-    <button class="tab" type="button" role="tab" id="tab-spoiler" aria-controls="panel-spoiler">Spoiler
-    </button>
-    <button class="tab" type="button" role="tab" id="tab-catwoman" aria-controls="panel-catwoman">Catwoman
-    </button>
+  <nav class="tabs" id="site-nav" aria-label="BatFamily">
+    <div class="navHeader" role="presentation">
+      <label class="navSearchLabel" for="memberFilter">Buscar personagem</label>
+      <input
+        class="navSearch"
+        id="memberFilter"
+        type="search"
+        inputmode="search"
+        placeholder="Ex.: Robin, Red Hood..."
+        autocomplete="off"
+      />
+      <p class="navEmpty" hidden>Nenhum personagem encontrado.</p>
+    </div>
 
+    <div class="tabList" role="tablist" aria-label="BatFamily">
+      <button class="tab" type="button" role="tab" id="tab-batman" aria-controls="panel-batman" aria-selected="true">
+        Batman
+      </button>
+      <button class="tab" type="button" role="tab" id="tab-robin" aria-controls="panel-robin" aria-selected="false">
+        Robin
+      </button>
+      <button class="tab" type="button" role="tab" id="tab-nightwing" aria-controls="panel-nightwing"
+        aria-selected="false">
+        Nightwing
+      </button>
+      <button class="tab" type="button" role="tab" id="tab-batgirl" aria-controls="panel-batgirl"
+        aria-selected="false">
+        Batgirl
+      </button>
+      <button class="tab" type="button" role="tab" id="tab-batman-beyond" aria-controls="panel-batman-beyond">
+        Batman Beyond
+      </button>
+      <button class="tab" type="button" role="tab" id="tab-batwoman" aria-controls="panel-batwoman">
+        Batwoman
+      </button>
+      <button class="tab" type="button" role="tab" id="tab-batgirl-cass-cain" aria-controls="panel-batgirl-cass-cain">
+        Batgirl (Cassandra Cain)
+      </button>
+      <button class="tab" type="button" role="tab" id="tab-red-hood" aria-controls="panel-red-hood">
+        Red Hood
+      </button>
+      <button class="tab" type="button" role="tab" id="tab-spoiler" aria-controls="panel-spoiler">
+        Spoiler
+      </button>
+      <button class="tab" type="button" role="tab" id="tab-catwoman" aria-controls="panel-catwoman">
+        Catwoman
+      </button>
+    </div>
   </nav>
 
   <main>
