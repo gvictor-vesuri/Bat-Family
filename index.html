@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BatFamily</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bangers&family=Space+Grotesk:wght@400;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <meta name="theme-color" content="#05070b" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <button class="menuToggle" type="button" aria-controls="site-nav" aria-expanded="false">
+    Menu
+  </button>
+  <div class="scrim" hidden></div>
+
+  <nav class="tabs" id="site-nav" role="tablist" aria-label="BatFamily">
+    <button class="tab" type="button" role="tab" id="tab-batman" aria-controls="panel-batman" aria-selected="true">
+      Batman
+    </button>
+    <button class="tab" type="button" role="tab" id="tab-robin" aria-controls="panel-robin" aria-selected="false">
+      Robin
+    </button>
+    <button class="tab" type="button" role="tab" id="tab-nightwing" aria-controls="panel-nightwing"
+      aria-selected="false">
+      Nightwing
+    </button>
+    <button class="tab" type="button" role="tab" id="tab-batgirl" aria-controls="panel-batgirl" aria-selected="false">
+      Batgirl
+    </button>
+    <button class="tab" type="button" role="tab" id="tab-batman-beyond" aria-controls="panel-batman-beyond">Batman
+      Beyond
+    </button>
+    <button class="tab" type="button" role="tab" id="tab-batwoman" aria-controls="panel-batwoman">Batwoman
+    </button>
+    <button class="tab" type="button" role="tab" id="tab-batgirl-cass-cain" aria-controls="panel-batgirl-cass-cain">Batgirl
+      (Cassandra Cain)
+    </button>
+    <button class="tab" type="button" role="tab" id="tab-red-hood" aria-controls="panel-red-hood">Red Hood
+    </button>
+    <button class="tab" type="button" role="tab" id="tab-spoiler" aria-controls="panel-spoiler">Spoiler
+    </button>
+    <button class="tab" type="button" role="tab" id="tab-catwoman" aria-controls="panel-catwoman">Catwoman
+    </button>
+
+  </nav>
+
+  <main>
+    <div class="banner">
+      <h1>Bat-Family</h1>
+      <img src="https://i.pinimg.com/736x/12/d0/ae/12d0ae69c3764d7da91215adf29c5a92.jpg" alt="Imagem da Bat-Family" />
+      <p>
+        A Bat-Family é o grupo de heróis aliados do Batman que ajudam a proteger Gotham City do crime. Eles são
+        treinados por Bruce Wayne, ou inspirados por ele, a lutar pela justiça. Mesmo sem superpoderes, utilizam
+        inteligência, tecnologia e treinamento para combater vilões e manter a cidade segura.
+      </p>
+    </div>
+
+    <section class="panels" aria-label="Galerias">
+      <section class="panel" id="panel-batman" role="tabpanel" aria-labelledby="tab-batman" aria-hidden="false">
+        <h2>Batman</h2>
+        <p class="bio">
+          Bruce Wayne virou o Batman depois de ver os pais serem mortos e jurar proteger Gotham. Antes, era um herdeiro
+          bilionário que viajou e treinou mente e corpo pelo mundo.
+        </p>
+        <div class="gallery" data-member="batman"></div>
+      </section>
+
+      <section class="panel" id="panel-robin" role="tabpanel" aria-labelledby="tab-robin" aria-hidden="true">
+        <h2>Robin</h2>
+        <p class="bio">
+          Robin é o parceiro jovem treinado pelo Batman. O mais conhecido, Dick Grayson, era acrobata de circo antes de
+          virar vigilante.
+        </p>
+        <div class="gallery" data-member="robin"></div>
+      </section>
+
+      <section class="panel" id="panel-nightwing" role="tabpanel" aria-labelledby="tab-nightwing" aria-hidden="true">
+        <h2>Nightwing</h2>
+        <p class="bio">
+          Nightwing é Dick Grayson após deixar o manto de Robin para liderar por conta própria. Antes, foi o primeiro
+          Robin e acrobata nos Flying Graysons.
+        </p>
+        <div class="gallery" data-member="nightwing"></div>
+      </section>
+
+      <section class="panel" id="panel-batgirl" role="tabpanel" aria-labelledby="tab-batgirl" aria-hidden="true">
+        <h2>Batgirl</h2>
+        <p class="bio">
+          Batgirl, geralmente Bárbara Gordon, entrou na luta inspirada pelo Batman e pela vontade de ajudar Gotham.
+          Antes, era estudante e filha do comissário Gordon.
+        </p>
+        <div class="gallery" data-member="batgirl"></div>
+      </section>
+      <section class="panel" id="panel-batman-beyond" role="tabpanel" aria-labelledby="tab-batman-beyond"
+        aria-hidden="true">
+        <h2>Batman Beyond</h2>
+        <p class="bio">
+          No futuro, Terry McGinnis assume o traje com a orientação de um Bruce Wayne mais velho. Antes, era um
+          adolescente comum em Neo-Gotham.
+        </p>
+        <div class="gallery" data-member="batman-beyond"></div>
+      </section>
+      <section class="panel" id="panel-batwoman" role="tabpanel" aria-labelledby="tab-batwoman"
+        aria-hidden="true">
+        <h2>Batwoman</h2>
+        <p class="bio">
+          Batwoman (Kate Kane) decide combater o crime com treino militar e recursos próprios. Antes, seguiu carreira
+          militar e quase se formou em uma academia.
+        </p>
+        <div class="gallery" data-member="batwoman"></div>
+      </section>
+      <section class="panel" id="panel-batgirl-cass-cain" role="tabpanel" aria-labelledby="tab-batgirl-cass-cain"
+        aria-hidden="true">
+        <h2>Batgirl (Cass Cain)</h2>
+        <p class="bio">
+          Cassandra Cain foi criada como arma por assassinos e aprendeu a lutar antes mesmo de falar. Ela busca
+          redenção e vira Batgirl ao lado da Bat-Family.
+        </p>
+        <div class="gallery" data-member="batgirl-cass-cain"></div>
+      </section>
+      <section class="panel" id="panel-red-hood" role="tabpanel" aria-labelledby="tab-red-hood" aria-hidden="true">
+        <h2>Red Hood</h2>
+        <p class="bio">
+          Red Hood é Jason Todd, um ex-Robin que voltou para Gotham com métodos mais duros. Antes, vivia nas ruas e foi
+          acolhido e treinado por Bruce.
+        </p>
+        <div class="gallery" data-member="red-hood"></div>
+      </section>
+      <section class="panel" id="panel-spoiler" role="tabpanel" aria-labelledby="tab-spoiler" aria-hidden="true">
+        <h2>Spoiler</h2>
+        <p class="bio">
+          Spoiler é Stephanie Brown, que virou vigilante para atrapalhar os crimes do pai. Antes, era uma adolescente
+          comum tentando fazer a coisa certa.
+        </p>
+        <div class="gallery" data-member="spoiler"></div>
+      </section>
+      <section class="panel" id="panel-catwoman" role="tabpanel" aria-labelledby="tab-catwoman" aria-hidden="true">
+        <h2>Catwoman</h2>
+        <p class="bio">
+          Catwoman (Selina Kyle) é uma ladra habilidosa que oscila entre crime e heroísmo. Antes, sobreviveu como ladra
+          e golpista nas ruas de Gotham.
+        </p>
+        <div class="gallery" data-member="catwoman"></div>
+      </section>
+    </section>
+  </main>
+
+  <script src="script.js" defer></script>
+</body>
+
+</html>
